@@ -4,6 +4,7 @@ import binascii
 import datetime
 import struct
 import realtime_bidding_pb2
+import hyperlocal_pb2
 from hashlib import sha1
 
 
@@ -99,3 +100,68 @@ class Decrypter(object):
 
     def _urlsafe_b64decode(self, s):
         return base64.urlsafe_b64decode(s + '=' * (4 - len(s) % 4))
+
+
+class DecrypterHyperLocal(Decrypter):
+    iv_length = 16
+    is_length = 4
+    byte_length = 20
+
+    def __init__(self, encryption_encoded_key, integrity_encoded_key):
+        super(DecrypterHyperLocal, self).__init__(
+            encryption_encoded_key, integrity_encoded_key,
+            self.iv_length, self.is_length, self.byte_length)
+
+    def decryption(self, long_ciphertext):
+        result = super(DecrypterHyperLocal, self).run(long_ciphertext)
+        hyper_local = self.decrypt_hyper_local(result['plaintext'])
+
+        return {'hyperlocal': hyper_local, 'datetime': result['datetime']}
+
+    def decrypt_hyper_local(self, plaintext):
+        hyper_local_set = hyperlocal_pb2.HyperlocalSet()
+        hyper_local_set.ParseFromString(plaintext)
+        corners = self.get_corners(hyper_local_set.hyperlocal)
+        center = self.get_lat_long(hyper_local_set.center_point)
+
+        return {'corners': corners, 'center_point': center}
+
+    def get_corners(self, hyper_local_set):
+        corners = []
+        for corner in hyper_local_set[0].corners:
+            corners.append(self.get_lat_long(corner))
+        return corners
+
+    def get_lat_long(self, point):
+        return {'lat': point.latitude, 'long': point.longitude}
+
+
+class DecrypterPrice(Decrypter):
+    iv_length = 16
+    is_length = 4
+    byte_length = 8
+
+    def __init__(self, encryption_encoded_key, integrity_encoded_key):
+        super(DecrypterPrice, self).__init__(
+            encryption_encoded_key, integrity_encoded_key,
+            self.iv_length, self.is_length, self.byte_length)
+
+    def decryption(self, long_ciphertext):
+        result = super(DecrypterPrice, self).run(long_ciphertext)
+        price = struct.unpack('>Q', result['plaintext'])
+        return {'price': price[0], 'datetime': result['datetime']}
+
+
+class DecrypterIdfa(Decrypter):
+    iv_length = 16
+    is_length = 4
+    byte_length = 16
+
+    def __init__(self, encryption_encoded_key, integrity_encoded_key):
+        super(DecrypterIdfa, self).__init__(
+            encryption_encoded_key, integrity_encoded_key,
+            self.iv_length, self.is_length, self.byte_length)
+
+    def decryption(self, long_ciphertext):
+        result = super(DecrypterIdfa, self).run(long_ciphertext)
+        return {'idfa': result['plaintext'], 'datetime': result['datetime']}
