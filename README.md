@@ -1,6 +1,9 @@
 # DoubleClick Requests Decrypter
 Google Decrypter for DoubleClick Ad Exchange Requests
 
+ - Based on kay-si's [version](https://github.com/kay-si/Google_AdEx_Decrypt)
+ - Complete documentation can be found [here](https://developers.google.com/ad-exchange/rtb/)
+
 ## Dependencies
 
 ### Google Protocol Buffer Binaries Dependencies
