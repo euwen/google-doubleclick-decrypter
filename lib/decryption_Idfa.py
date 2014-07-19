@@ -13,4 +13,4 @@ class DecrypterIdfa(decryption.Decrypter):
 
     def decryption(self, long_ciphertext):
         result = super(DecrypterIdfa, self).run(long_ciphertext)
-        return {'idfa': result["plaintext"], 'datetime': result["datetime"]}
+        return {'idfa': result['plaintext'], 'datetime': result['datetime']}

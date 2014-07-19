@@ -14,5 +14,5 @@ class DecrypterPrice(decryption.Decrypter):
 
     def decryption(self, long_ciphertext):
         result = super(DecrypterPrice, self).run(long_ciphertext)
-        price = struct.unpack(">Q", result["plaintext"])
-        return {'price': price[0], 'datetime': result["datetime"]}
+        price = struct.unpack('>Q', result['plaintext'])
+        return {'price': price[0], 'datetime': result['datetime']}
