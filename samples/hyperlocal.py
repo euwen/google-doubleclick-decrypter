@@ -1,8 +1,7 @@
 import sys
 import binascii
-
 sys.path.insert(0, '../lib')
-from decryption_hyper_local import DecrypterHyperLocal
+from decrypter import DecrypterHyperLocal
 
 encryption_encoded_key = 'Au6oPGwSEeELn4iWbO7DSQjrlG9-1uRBr0KzwPMhgUA.'
 integrity_encoded_key = 'v__sVcMBMMHYzRhi7SpM0sdqwzvAxM6KPTu9OtVod5I.'
@@ -10,5 +9,4 @@ long_ciphertext = binascii.unhexlify('E2014EA201246E6F6E636520736F75726365014142
 
 decrypter = DecrypterHyperLocal(encryption_encoded_key, integrity_encoded_key)
 bid_request = decrypter.deserialize_bid_request(long_ciphertext)
-
 print decrypter.decryption(bid_request.encrypted_hyperlocal_set)
