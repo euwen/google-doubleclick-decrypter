@@ -169,4 +169,8 @@ class DecrypterIdfa(Decrypter):
 
     def decryption(self, long_ciphertext):
         result = super(DecrypterIdfa, self).run(long_ciphertext)
-        return {'idfa': result['plaintext'], 'datetime': result['datetime']}
+        return {
+            'idfa_hex': binascii.hexlify(result['plaintext']),
+            'idfa_bytes': result['plaintext'],
+            'datetime': result['datetime']
+        }
