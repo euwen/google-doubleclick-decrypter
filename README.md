@@ -1,7 +1,7 @@
 # DoubleClick Requests Decrypter
 Google DoubleClick Ad Exchange RTB Decrypter in Python
 
-https://travis-ci.org/trein/google-doubleclick-decrypter.svg?branch=master
+[![Build Status](https://travis-ci.org/trein/google-doubleclick-decrypter.svg?branch=master)](https://travis-ci.org/trein/google-doubleclick-decrypter)
 
  - Based on kay-si's [version](https://github.com/kay-si/Google_AdEx_Decrypt)
  - Complete documentation can be found [here](https://developers.google.com/ad-exchange/rtb/)
