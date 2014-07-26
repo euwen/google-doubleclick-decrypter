@@ -3,6 +3,7 @@ import os
 import unittest
 import binascii
 import base64
+
 sys.path.insert(0, '../lib')
 from decrypter import DecrypterHyperLocal
 from decrypter import DecrypterIdfa

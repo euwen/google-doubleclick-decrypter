@@ -9,6 +9,6 @@ setup(
     author='Guilherme Trein',
     description='Google DoubleClick Ad Exchange RTB Decrypter',
     long_description='Google decrypter following DoubleClick Ad Exchange Real-Time Bidding Protocol',
-    packages=find_packages(exclude=['tests']),
+    packages=find_packages(exclude=['tests', 'samples', 'resources']),
     package_dir={'google-doubleclick-decrypter': 'google-doubleclick-decrypter'},
 )

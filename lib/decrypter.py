@@ -120,7 +120,6 @@ class DecrypterHyperLocal(Decrypter):
     def decryption(self, long_ciphertext):
         result = super(DecrypterHyperLocal, self).run(long_ciphertext)
         hyper_local = self._decrypt_hyper_local(result['plaintext'])
-
         return {'hyperlocal': hyper_local, 'datetime': result['datetime']}
 
     def _decrypt_hyper_local(self, plaintext):
@@ -128,7 +127,6 @@ class DecrypterHyperLocal(Decrypter):
         hyper_local_set.ParseFromString(plaintext)
         corners = self._get_corners(hyper_local_set.hyperlocal)
         center = self._get_lat_long(hyper_local_set.center_point)
-
         return {'corners': corners, 'center_point': center}
 
     def _get_corners(self, hyper_local_set):
@@ -169,8 +167,9 @@ class DecrypterIdfa(Decrypter):
 
     def decryption(self, long_ciphertext):
         result = super(DecrypterIdfa, self).run(long_ciphertext)
-        return {
+        idfa = {
             'idfa_hex': binascii.hexlify(result['plaintext']),
             'idfa_bytes': result['plaintext'],
             'datetime': result['datetime']
         }
+        return idfa
